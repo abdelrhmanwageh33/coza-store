@@ -1,0 +1,12 @@
+.first,.second,.third{
+    background-position: center center;
+    background-size: cover;
+    height: 75vh;
+}
+.first{
+    background-image: url('/assets/slide-01.webp');
+
+}
+.second{
+    background-image: url('/assets/slide-02.webp');
+}

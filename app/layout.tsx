@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import {NavBar} from "./_components/Shared/NavBar";
+import Footer from "./_components/Shared/Footer";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Providers from "@/Providers";
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,10 +29,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      <body 
+      
+        className={`${geistSans.variable} ${geistMono.variable} antialiased  relative  `} 
+        
       >
-        {children}
+        <Providers>
+              <NavBar/>
+              
+  {children}
+              
+
+      
+        <Toaster position="top-center"/>
+<Footer/>
+
+        </Providers>
+
       </body>
     </html>
   );
