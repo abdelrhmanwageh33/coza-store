@@ -21,6 +21,6 @@ export async function getTokenUser() {
   })
 
 
-  return decoded?.token as string | null
+  return decoded?.accessToken  as string | null
 }
 
