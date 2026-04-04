@@ -15,12 +15,8 @@ export async function getTokenUser() {
     return null
   }
 
-  const decoded = await decode({
-    token: tokenCookie,
-    secret: process.env.AUTH_SECRET!,
-  })
-
-
-  return decoded?.accessToken  as string | null
+  
+  const decoded = await decode({ token: tokenCookie, secret: process.env.NEXTAUTH_SECRET! });
+  return decoded?.token as string | null;
 }
 

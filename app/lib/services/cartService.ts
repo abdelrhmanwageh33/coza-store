@@ -1,161 +1,61 @@
-import { log } from "console";
+// lib/cart.ts
+
 import { getTokenUser } from "./Servir-utis";
-import { json, number } from "zod";
 
-/* ===============================
-   Get Logged User Cart
-================================ */
-export async function getloggedUserCart() {
-  const finalToken = await getTokenUser();
-  
-  if (!finalToken) {
-    throw new Error("Token not found");
-  }
+async function fetchWithToken(url: string, options: RequestInit = {}) {
+  const token = await getTokenUser();
+  if (!token) throw new Error("Token not found");
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart`,
-    {
-      headers: {
-        token: finalToken,
-        'Content-Type':'application/json'
-      },
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      "Content-Type": "application/json",
+      token,
+    },
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     const text = await res.text();
-    console.log("Get Cart Error:", text);
-    throw new Error("Failed to fetch cart");
+    console.error("Fetch Error:", text);
+    throw new Error(`Request failed: ${res.status}`);
   }
-
-  return await res.json();
+  return res.json();
 }
 
-/* ===============================
-   Remove Item From Cart
-================================ */
-export async function rempveCartItem(id:string) {
-  const finalToken = await getTokenUser();
-
-  if (!finalToken) {
-    throw new Error("Token not found");
-  }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart/${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        token: finalToken,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    const text = await res.text();
-    console.log("Remove Cart Item Error:", text);
-    throw new Error("Failed to remove cart item");
-  }
-
-  return await res.json();
+// ===== Get Cart =====
+export async function getLoggedUserCart() {
+  return fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart`);
 }
 
-export async function UpdateItem(id:string,count:string|number) {
-  const finalToken = await getTokenUser();
-
-  if (!finalToken) {
-    throw new Error("Token not found");
-  }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart/${id}`,
-    {
-      method: "PUT",
-      headers: {
-        token: finalToken,
-                "Content-Type": "application/json",
-
-      },
-     body: JSON.stringify({
-       count:String(count)
-      }),
-    }
-  );
-
-  if (!res.ok) {
-    const text = await res.text();
-    console.log("update Cart Item Error:", text);
-    throw new Error("Failed to update cart item");
-  }
-
-  return await res.json();
-}
-
-
-/* ===============================
-   Add Product To Cart
-================================ */
+// ===== Add to Cart =====
 export async function addToCart(productId: string) {
-  const finalToken = await getTokenUser();
-
-  if (!finalToken) {
-    throw new Error("Token not found");
-  }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart`,
-    {
-      method: "POST",
-      headers: {
-        token: finalToken,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        productId,
-      }),
-    }
-  );
-
-  if (!res.ok) {
-    const text = await res.text();
-    console.log("Add To Cart Error:", text);
-    throw new Error("Failed to add product to cart");
-  }
-
-  return await res.json();
+  return fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart`, {
+    method: "POST",
+    body: JSON.stringify({ productId }),
+  });
 }
 
-/* ===============================
-  payment casj
-================================ */
-export async function paymentCash(productId: string,data:any) {
-  const finalToken = await getTokenUser();
-
-  if (!finalToken) {
-    throw new Error("Token not found");
-  }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/orders/${productId}`,
-    {
-      method: "POST",
-      headers: {
-        token: finalToken,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-       data
-      }),
-    }
-  );
-
-  if (!res.ok) {
-    const text = await res.text();
-    console.log("Add To Cart Error:", text);
-    throw new Error("Failed to add product to cart");
-  }
-
-  return await res.json();
+// ===== Update Cart Item =====
+export async function updateCartItem(id: string, count: number) {
+  return fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ count }),
+  });
 }
 
+// ===== Remove Cart Item =====
+export async function removeCartItem(id: string) {
+  return fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cart/${id}`, {
+    method: "DELETE",
+  });
+}
+
+// ===== Payment Cash =====
+export async function paymentCash(orderId: string, data: any) {
+  return fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/orders/${orderId}`, {
+    method: "POST",
+    body: JSON.stringify({ data }),
+  });
+}
