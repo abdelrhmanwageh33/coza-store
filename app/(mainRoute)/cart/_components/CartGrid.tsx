@@ -1,19 +1,19 @@
 import { useCart } from "@/app/lib/context/CartContext";
-import { rempveCartItem, UpdateItem } from "@/app/lib/services/cartService";
 import { Product } from "@/app/lib/type/product.type";
 import { toast } from "sonner";
+import { removeCartItem, updateCartItem } from "@/app/lib/services/cartService";
 
 export default function CartGrid({ products }: { products: Product }) {
   const { getCartData } = useCart();
 
   async function removeIem() {
-    await rempveCartItem(products?.product?._id);
+    await removeCartItem(products?.product?._id);
     getCartData();
   }
 
   async function minus() {
     const currentCount = products?.count || 1;
-    await toast.promise(UpdateItem(products?.product?._id, currentCount - 1), {
+    await toast.promise(updateCartItem(products?.product?._id, currentCount - 1), {
       loading: 'Updating quantity...',
       success: 'Updated successfully',
       error: 'Failed',
@@ -23,7 +23,7 @@ export default function CartGrid({ products }: { products: Product }) {
 
   async function plus() {
     const currentCount = products?.count || 1;
-    await toast.promise(UpdateItem(products?.product?._id, currentCount + 1), {
+    await toast.promise(updateCartItem(products?.product?._id, currentCount + 1), {
       loading: 'Updating quantity...',
       success: 'Updated successfully',
       error: 'Failed',

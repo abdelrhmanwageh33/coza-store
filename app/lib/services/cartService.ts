@@ -18,7 +18,7 @@ async function fetchWithToken(url: string, options: RequestInit = {}) {
 
   if (!res.ok) {
     const text = await res.text();
-    console.error("Fetch Error:", text);
+    console.error("Fetch Error:", text); 
     throw new Error(`Request failed: ${res.status}`);
   }
   return res.json();

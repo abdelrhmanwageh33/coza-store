@@ -1,7 +1,6 @@
 "use client"
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { getloggedUserCart } from '../services/cartService'
-import { useSession } from 'next-auth/react'
+import { getLoggedUserCart } from '../services/cartService';import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 interface CartContextType{
   getCartData:()=>Promise<void>
@@ -15,7 +14,7 @@ export default function CartContextProvider({children}:{children:ReactNode}) {
   const {status}=useSession()
 async function  getCartData(){
   try {
-    const cartItem= await getloggedUserCart()
+    const cartItem= await getLoggedUserCart()
     setCart(cartItem)
     setCartNums(cartItem?.numOfCartItems)
    
