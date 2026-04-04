@@ -1,5 +1,5 @@
 "use client"
-import { getloggedUserCart } from "@/app/lib/services/cartService"
+
 import { IProduct, Product } from "@/app/lib/type/product.type"
 import CartGrid from "./CartGrid"
 import { useCart } from "@/app/lib/context/CartContext"
