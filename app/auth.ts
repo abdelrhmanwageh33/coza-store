@@ -19,7 +19,13 @@ export const authOptions:NextAuthOptions={
 
       // If no error and we have user data, return it
       if (res.ok && data) {
-        return {id:data?.user?.email,token:data?.token, user:data?.user}
+        return {
+  id: data.user.email,
+  name: data.user.name,
+  email: data.user.email,
+  role: data.user.role,
+  accessToken: data.token, // 🔥 مهم
+}
       }else{
         throw Error(data?.message||'erroe in data')
       }
@@ -30,37 +36,26 @@ export const authOptions:NextAuthOptions={
 
          })
     ],
-    callbacks: {
+callbacks: {
   async jwt({ token, user }) {
- if(user){
-    token.user = user.user;
-    token.token = user.token;
-   
-    /*token = {
- user:{name,email,role},
- token:"abc123"
-}*/ 
- }
-
-    return token;
+    if (user) {
+      token.user = {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        id: user.id,
+      }
+      token.accessToken = user.accessToken
+    }
+    return token
   },
 
   async session({ session, token }) {
-    session.user = token.user as {
-        name:string,
-role:string,
-email:string,
-id:string,
-    };
-    session.token=token.token as {
-        token:string
-    };
-     
-
- 
-    return session;
+    session.user = token.user
+    session.accessToken = token.accessToken
+    return session
   },
-},
+}
 
 }
 
