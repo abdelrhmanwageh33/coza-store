@@ -1,6 +1,7 @@
 "use client"
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { getLoggedUserCart } from '../services/cartService';import { useSession } from 'next-auth/react'
+import { getLoggedUserCart } from '../services/cartService';
+import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 interface CartContextType{
   getCartData:()=>Promise<void>

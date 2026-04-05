@@ -3,7 +3,6 @@
 import { IProduct, Product } from "@/app/lib/type/product.type"
 import CartGrid from "./CartGrid"
 import { useCart } from "@/app/lib/context/CartContext"
-import { useEffect } from "react"
 import CartPrice from "./CartPrice"
 
 export default  function TotalCart() {
