@@ -1,15 +1,11 @@
 
 import MainSlider from "./_components/ui/MainSlider/MainSlider";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import CategoryCard from "./_components/ui/CategoryCard";
-import { getloggedUserCart } from "./lib/services/cartService";
 import { getAllProduct } from "./lib/services/productServises";
 import {  IProduct } from "./lib/type/product.type";
 import ProductCard from "./(mainRoute)/products/_components/ProductCard";
-import { getAllBrand } from "./lib/services/brandService";
 import Brand from "./_components/ui/Brand";
-import Footer from "./_components/Shared/Footer";
 
 
 
