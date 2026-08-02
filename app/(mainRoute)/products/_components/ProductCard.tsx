@@ -9,17 +9,20 @@ import { Heart } from 'iconsax-reactjs'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { ShoppingCart } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export default function ProductCard({product}:{product:IProduct}) {
 
   const {cartNums,getCartData} = useCart()
   const {getWhishListData}=useWhishList()
-
+const {status}=useSession()
   async function addtocart(){
+
    await toast.promise( addToCart(product?._id),{
     loading:'adding to cart ....',
     success:'added to cart succesfully',
-    error:'faild '
+    error:'please login '
    })
      getCartData()
   }
@@ -32,13 +35,14 @@ export default function ProductCard({product}:{product:IProduct}) {
     })
     getWhishListData()
   }
+  const router= useRouter()
 
   return (
 
     <div className="border rounded-xl overflow-hidden bg-white hover:shadow-lg transition duration-300 flex flex-col">
 
       {/* Image */}
-      <Link href={`/products/${product._id}`} className="relative bg-gray-50 flex justify-center items-center p-6">
+      <Link href={`/products/${product._id}`} prefetch className="relative bg-gray-50 flex justify-center items-center p-6" >
 
         {/* Wishlist */}
         <Heart

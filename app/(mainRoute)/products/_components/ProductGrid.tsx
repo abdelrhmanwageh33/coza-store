@@ -13,7 +13,6 @@ export default function ProductGrid() {
   useEffect(() => {
     async function fetchProducts() {
       const products = await getAllProduct();
-      console.log(products);
       
       setAllProducts(products);
       setFilteredProducts(products); // عرض كل المنتجات أول مرة
