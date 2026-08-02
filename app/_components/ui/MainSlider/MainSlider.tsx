@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useRef, useState } from 'react';
+import Link from 'next/link';
 
 export default function MainSlider() {
 
@@ -66,8 +67,8 @@ export default function MainSlider() {
                 JACKETS & COATS
 
               </h2>
-
-              <button className="
+<Link href={"/products"}>
+<button className="
               bg-[#717FE0]
               text-white
               px-6 py-2
@@ -82,6 +83,8 @@ export default function MainSlider() {
                 SHOP NOW
 
               </button>
+</Link>
+              
 
             </div>
 
@@ -126,7 +129,8 @@ export default function MainSlider() {
 
               </h2>
 
-              <button className="
+       <Link href={"/products"}>
+<button className="
               bg-[#717FE0]
               text-white
               px-6 py-2
@@ -141,6 +145,7 @@ export default function MainSlider() {
                 SHOP NOW
 
               </button>
+</Link>
 
             </div>
 
